@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "store": "החנות שלי",
+    "account": "חשבון",
+    "cart": "עגלה ({count})"
+  },
+  "sideMenu": {
+    "home": "בית",
+    "store": "חנות",
+    "account": "חשבון",
+    "cart": "עגלה",
+    "menu": "תפריט"
+  },
+  "cart": {
+    "title": "עגלת קניות",
+    "empty": "עגלת הקניות שלך ריקה.",
+    "explore": "גלה מוצרים",
+    "subtotal": "סכום ביניים",
+    "exclTaxes": "(לא כולל מע\"מ)",
+    "goToCart": "לעגלת הקניות",
+    "quantity": "כמות: {count}",
+    "remove": "הסר"
+  },
+  "store": {
+    "allProducts": "כל המוצרים",
+    "categories": "קטגוריות",
+    "sortBy": "מיון לפי",
+    "filters": "סינון",
+    "noProducts": "לא נמצאו מוצרים.",
+    "latestArrivals": "הגיעו לאחרונה",
+    "priceLowHigh": "מחיר: נמוך ← גבוה",
+    "priceHighLow": "מחיר: גבוה ← נמוך"
+  },
+  "product": {
+    "addToCart": "הוסף לעגלה",
+    "outOfStock": "אזל מהמלאי",
+    "selectVariant": "בחר גרסה",
+    "price": "מחיר"
+  },
+  "account": {
+    "title": "חשבון",
+    "login": "כניסה",
+    "register": "יצירת חשבון",
+    "logout": "יציאה",
+    "orders": "הזמנות",
+    "profile": "פרופיל",
+    "addresses": "כתובות",
+    "welcome": "שלום, {name}",
+    "profileCompletion": "השלמת פרופיל",
+    "savedAddresses": "כתובות שמורות",
+    "recentOrders": "הזמנות אחרונות"
+  },
+  "checkout": {
+    "title": "תשלום",
+    "shipping": "משלוח",
+    "payment": "תשלום",
+    "review": "סקירה",
+    "placeOrder": "בצע הזמנה",
+    "backToCart": "חזרה לעגלה",
+    "email": "אימייל",
+    "firstName": "שם פרטי",
+    "lastName": "שם משפחה",
+    "address": "כתובת",
+    "city": "עיר",
+    "country": "מדינה",
+    "postalCode": "מיקוד",
+    "phone": "טלפון"
+  },
+  "footer": {
+    "categories": "קטגוריות",
+    "collections": "קולקציות",
+    "rights": "© {year} {store}. כל הזכויות שמורות."
+  },
+  "common": {
+    "loading": "טוען...",
+    "error": "משהו השתבש.",
+    "backToHome": "חזרה לעמוד הבית",
+    "viewAll": "הצג הכל",
+    "search": "חיפוש",
+    "close": "סגור",
+    "save": "שמור",
+    "cancel": "ביטול",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "confirm": "אישור"
+  },
+  "hero": {
+    "defaultHeadline": "ברוכים הבאים לחנות שלנו",
+    "defaultTagline": "גלו את המוצרים שלנו"
+  }
+}

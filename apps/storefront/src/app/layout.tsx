@@ -1,16 +1,36 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
-import "styles/globals.css"
+import { Inter } from "next/font/google"
+import { NextIntlClientProvider } from "next-intl"
+import { getLocale, getMessages } from "next-intl/server"
+import "../styles/globals.css"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
 }
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+  const isRtl = locale === "he"
+
   return (
-    <html lang="en" data-mode="light">
-      <body>
-        <main className="relative">{props.children}</main>
+    <html
+      lang={locale}
+      dir={isRtl ? "rtl" : "ltr"}
+      data-mode="light"
+      className={inter.variable}
+    >
+      <body className="app-surface min-h-screen text-base antialiased">
+        <NextIntlClientProvider messages={messages}>
+          <main className="relative min-h-screen">{props.children}</main>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

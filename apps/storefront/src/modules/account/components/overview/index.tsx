@@ -12,13 +12,13 @@ type OverviewProps = {
 
 const Overview = ({ customer, orders }: OverviewProps) => {
   return (
-    <div data-testid="overview-page-wrapper">
-      <div className="hidden small:block">
-        <div className="text-xl-semi flex justify-between items-center mb-4">
+    <div className="hidden small:block" data-testid="overview-page-wrapper">
+      <div className="surface-card border border-white/40 p-5 small:p-6">
+        <div className="mb-5 flex items-center justify-between">
           <span data-testid="welcome-message" data-value={customer?.first_name}>
             Hello {customer?.first_name}
           </span>
-          <span className="text-small-regular text-ui-fg-base">
+          <span className="text-small-regular text-ui-fg-subtle">
             Signed in as:{" "}
             <span
               className="font-semibold"
@@ -29,10 +29,10 @@ const Overview = ({ customer, orders }: OverviewProps) => {
             </span>
           </span>
         </div>
-        <div className="flex flex-col py-8 border-t border-gray-200">
+        <div className="flex flex-col border-t border-ui-border-base pt-6">
           <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
             <div className="flex items-start gap-x-16 mb-6">
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-4 rounded-xl border border-ui-border-base bg-ui-bg-subtle/50 p-4">
                 <h3 className="text-large-semi">Profile</h3>
                 <div className="flex items-end gap-x-2">
                   <span
@@ -48,7 +48,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-4 rounded-xl border border-ui-border-base bg-ui-bg-subtle/50 p-4">
                 <h3 className="text-large-semi">Addresses</h3>
                 <div className="flex items-end gap-x-2">
                   <span
@@ -70,7 +70,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                 <h3 className="text-large-semi">Recent orders</h3>
               </div>
               <ul
-                className="flex flex-col gap-y-4"
+                className="flex flex-col gap-y-3"
                 data-testid="orders-wrapper"
               >
                 {orders && orders.length > 0 ? (
@@ -84,7 +84,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                         <LocalizedClientLink
                           href={`/account/orders/details/${order.id}`}
                         >
-                          <Container className="bg-gray-50 flex justify-between items-center p-4">
+                          <Container className="surface-card-hover flex items-center justify-between border border-ui-border-base bg-ui-bg-subtle/60 p-4">
                             <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
                               <span className="font-semibold">Date placed</span>
                               <span className="font-semibold">
@@ -124,7 +124,12 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                     )
                   })
                 ) : (
-                  <span data-testid="no-orders-message">No recent orders</span>
+                  <span
+                    className="text-ui-fg-subtle"
+                    data-testid="no-orders-message"
+                  >
+                    No recent orders
+                  </span>
                 )}
               </ul>
             </div>

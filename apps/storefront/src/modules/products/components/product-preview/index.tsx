@@ -4,6 +4,7 @@ import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import ProductCardCounter from "./product-card-counter"
 
 export default async function ProductPreview({
   product,
@@ -29,18 +30,34 @@ export default async function ProductPreview({
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
-      <div data-testid="product-wrapper">
-        <Thumbnail
-          thumbnail={product.thumbnail}
-          images={product.images}
-          size="full"
-          isFeatured={isFeatured}
-        />
-        <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle" data-testid="product-title">
+      <div
+        data-testid="product-wrapper"
+        className="rounded-xl overflow-hidden bg-white border border-ui-border-base transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+      >
+        <div className="overflow-hidden relative">
+          <Thumbnail
+            thumbnail={product.thumbnail}
+            images={product.images}
+            size="full"
+            isFeatured={isFeatured}
+            className="transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+          <ProductCardCounter
+            variantId={
+              product.variants?.length === 1
+                ? product.variants[0].id ?? null
+                : null
+            }
+          />
+        </div>
+        <div className="flex txt-compact-medium mt-0 px-3 py-3 justify-between items-center">
+          <Text
+            className="text-ui-fg-base font-medium truncate"
+            data-testid="product-title"
+          >
             {product.title}
           </Text>
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2 shrink-0 ms-2">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>

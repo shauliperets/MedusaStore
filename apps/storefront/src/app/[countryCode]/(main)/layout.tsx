@@ -38,7 +38,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           shippingOptions={shippingOptions}
         />
       )}
-      {props.children}
+      <div className="relative pb-4 animate-fade-up">{props.children}</div>
       <Footer />
     </>
   )

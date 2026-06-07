@@ -4,6 +4,7 @@ import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
 import { HttpTypes } from "@medusajs/types"
+import { Card } from "@modules/common/components/ui"
 
 const CartTemplate = ({
   cart,
@@ -13,11 +14,14 @@ const CartTemplate = ({
   customer: HttpTypes.StoreCustomer | null
 }) => {
   return (
-    <div className="py-12">
-      <div className="content-container" data-testid="cart-container">
-        {cart?.items?.length ? (
-          <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
-            <div className="flex flex-col bg-white py-6 gap-y-6">
+    <div className="content-shell py-6" data-testid="cart-container">
+      {cart?.items?.length ? (
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
+          <Card>
+            <Card.Header>
+              <Card.Title>Shopping Cart</Card.Title>
+            </Card.Header>
+            <Card.Content>
               {!customer && (
                 <>
                   <SignInPrompt />
@@ -25,25 +29,19 @@ const CartTemplate = ({
                 </>
               )}
               <ItemsTemplate cart={cart} />
-            </div>
-            <div className="relative">
-              <div className="flex flex-col gap-y-8 sticky top-12">
-                {cart && cart.region && (
-                  <>
-                    <div className="bg-white py-6">
-                      <Summary cart={cart} />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
+            </Card.Content>
+          </Card>
+          <div className="lg:sticky lg:top-20 h-fit">
+            {cart && cart.region && <Summary cart={cart} />}
           </div>
-        ) : (
-          <div>
+        </div>
+      ) : (
+        <Card>
+          <Card.Content>
             <EmptyCartMessage />
-          </div>
-        )}
-      </div>
+          </Card.Content>
+        </Card>
+      )}
     </div>
   )
 }

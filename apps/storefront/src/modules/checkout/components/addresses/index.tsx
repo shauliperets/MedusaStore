@@ -40,11 +40,11 @@ const Addresses = ({
   const [message, formAction] = useActionState(setAddresses, null)
 
   return (
-    <div className="bg-white">
+    <section className="surface-card border border-white/40 p-5 small:p-7">
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row items-baseline gap-x-2 text-xl-semi"
         >
           Shipping Address
           {!isOpen && <CheckCircleSolid />}
@@ -177,7 +177,7 @@ const Addresses = ({
         </div>
       )}
       <Divider className="mt-8" />
-    </div>
+    </section>
   )
 }
 

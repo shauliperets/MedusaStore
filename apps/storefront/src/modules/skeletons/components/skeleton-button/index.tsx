@@ -1,5 +1,7 @@
+import { Skeleton } from "@modules/common/components/ui"
+
 const SkeletonButton = () => {
-  return <div className="w-full min-h-[50px] px-5 py-[10px] bg-gray-100"></div>
+  return <Skeleton className="h-12 w-full" />
 }
 
 export default SkeletonButton

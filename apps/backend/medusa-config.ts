@@ -1,6 +1,9 @@
-import { loadEnv, defineConfig } from '@medusajs/framework/utils'
+/** @format */
 
-loadEnv(process.env.NODE_ENV || 'development', process.cwd())
+import { loadEnv, defineConfig } from "@medusajs/framework/utils";
+import { TENANT_MODULE } from "./src/modules/tenants";
+
+loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
 module.exports = defineConfig({
   projectConfig: {
@@ -11,6 +14,12 @@ module.exports = defineConfig({
       authCors: process.env.AUTH_CORS!,
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
-    }
-  }
-})
+    },
+  },
+  modules: [
+    {
+      resolve: "./src/modules/tenants",
+      key: TENANT_MODULE,
+    },
+  ],
+});

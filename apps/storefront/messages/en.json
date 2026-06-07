@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "store": "My Store",
+    "account": "Account",
+    "cart": "Cart ({count})"
+  },
+  "sideMenu": {
+    "home": "Home",
+    "store": "Store",
+    "account": "Account",
+    "cart": "Cart",
+    "menu": "Menu"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your shopping bag is empty.",
+    "explore": "Explore products",
+    "subtotal": "Subtotal",
+    "exclTaxes": "(excl. taxes)",
+    "goToCart": "Go to cart",
+    "quantity": "Quantity: {count}",
+    "remove": "Remove"
+  },
+  "store": {
+    "allProducts": "All products",
+    "categories": "Categories",
+    "sortBy": "Sort by",
+    "filters": "Filters",
+    "noProducts": "No products found.",
+    "latestArrivals": "Latest Arrivals",
+    "priceLowHigh": "Price: Low -> High",
+    "priceHighLow": "Price: High -> Low"
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "outOfStock": "Out of stock",
+    "selectVariant": "Select variant",
+    "price": "Price"
+  },
+  "account": {
+    "title": "Account",
+    "login": "Sign in",
+    "register": "Create account",
+    "logout": "Sign out",
+    "orders": "Orders",
+    "profile": "Profile",
+    "addresses": "Addresses",
+    "welcome": "Hello, {name}",
+    "profileCompletion": "Profile completion",
+    "savedAddresses": "Saved addresses",
+    "recentOrders": "Recent orders"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shipping": "Shipping",
+    "payment": "Payment",
+    "review": "Review",
+    "placeOrder": "Place order",
+    "backToCart": "Back to cart",
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "postalCode": "Postal code",
+    "phone": "Phone"
+  },
+  "footer": {
+    "categories": "Categories",
+    "collections": "Collections",
+    "rights": "© {year} {store}. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong.",
+    "backToHome": "Back to home",
+    "viewAll": "View all",
+    "search": "Search",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "confirm": "Confirm"
+  },
+  "hero": {
+    "defaultHeadline": "Welcome to our store",
+    "defaultTagline": "Discover our products"
+  }
+}

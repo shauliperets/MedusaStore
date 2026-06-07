@@ -12,7 +12,10 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const isOpen = searchParams.get("step") === "review"
 
   const paidByGiftcard = !!(
-    (cart as unknown as Record<string, unknown>)?.gift_cards && ((cart as unknown as Record<string, unknown>)?.gift_cards as unknown[])?.length > 0 && cart?.total === 0
+    (cart as unknown as Record<string, unknown>)?.gift_cards &&
+    ((cart as unknown as Record<string, unknown>)?.gift_cards as unknown[])
+      ?.length > 0 &&
+    cart?.total === 0
   )
 
   const previousStepsCompleted =
@@ -21,23 +24,20 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
+    <section className="surface-card border border-white/40 p-5 small:p-7">
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
-            {
-              "opacity-50 pointer-events-none select-none": !isOpen,
-            }
-          )}
+          className={clx("flex flex-row items-baseline gap-x-2 text-xl-semi", {
+            "opacity-50 pointer-events-none select-none": !isOpen,
+          })}
         >
           Review
         </Heading>
       </div>
       {isOpen && previousStepsCompleted && (
         <>
-          <div className="flex items-start gap-x-1 w-full mb-6">
+          <div className="mb-6 flex w-full items-start gap-x-1 rounded-xl border border-ui-border-base bg-ui-bg-subtle p-4">
             <div className="w-full">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 By clicking the Place Order button, you confirm that you have
@@ -50,7 +50,7 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           <PaymentButton cart={cart} data-testid="submit-order-button" />
         </>
       )}
-    </div>
+    </section>
   )
 }
 

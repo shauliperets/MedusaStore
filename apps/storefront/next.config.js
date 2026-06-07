@@ -1,6 +1,9 @@
 const checkEnvVariables = require("./check-env-variables")
+const createNextIntlPlugin = require("next-intl/plugin")
 
 checkEnvVariables()
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
 
 /**
  * Medusa Cloud-related environment variables
@@ -32,6 +35,10 @@ const nextConfig = {
         hostname: "localhost",
       },
       {
+        protocol: "http",
+        hostname: "*.localhost",
+      },
+      {
         protocol: "https",
         hostname: "*.s3.*.amazonaws.com",
       },
@@ -50,6 +57,20 @@ const nextConfig = {
         : []),
     ],
   },
+  async headers() {
+    return [
+      {
+        // Match all subdomains for local dev e.g. store1.localhost:3000
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+        ],
+      },
+    ]
+  },
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig)

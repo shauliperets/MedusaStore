@@ -13,14 +13,14 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
   const payment = order.payment_collections?.[0].payments?.[0]
 
   return (
-    <div>
-      <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
+    <div className="rounded-xl border border-ui-border-base bg-ui-bg-subtle/60 p-4">
+      <Heading level="h2" className="my-2 flex flex-row text-xl-semi">
         Payment
       </Heading>
       <div>
         {payment && (
-          <div className="flex items-start gap-x-1 w-full">
-            <div className="flex flex-col w-1/3">
+          <div className="flex w-full flex-col gap-5 small:flex-row small:items-start">
+            <div className="flex max-w-sm flex-col gap-1">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 Payment method
               </Text>
@@ -31,7 +31,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                 {paymentInfoMap[payment.provider_id].title}
               </Text>
             </div>
-            <div className="flex flex-col w-2/3">
+            <div className="flex flex-1 flex-col gap-1">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 Payment details
               </Text>
@@ -55,7 +55,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
         )}
       </div>
 
-      <Divider className="mt-8" />
+      <Divider className="mt-5" />
     </div>
   )
 }

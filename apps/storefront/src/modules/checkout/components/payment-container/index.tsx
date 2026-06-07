@@ -34,7 +34,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       value={paymentProviderId}
       disabled={disabled}
       className={clx(
-        "flex flex-col gap-y-2 text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+        "mb-2 flex cursor-pointer flex-col gap-y-2 rounded-xl border px-5 py-4 text-small-regular transition-all hover:-translate-y-0.5 hover:shadow-lg",
         {
           "border-ui-border-interactive":
             selectedPaymentOptionId === paymentProviderId,
@@ -84,7 +84,7 @@ export const StripeCardContainer = ({
     return {
       style: {
         base: {
-          fontFamily: "Inter, sans-serif",
+          fontFamily: "Heebo, Inter, sans-serif",
           color: "#424270",
           "::placeholder": {
             color: "rgb(107 114 128)",
@@ -92,7 +92,7 @@ export const StripeCardContainer = ({
         },
       },
       classes: {
-        base: "pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out",
+        base: "block h-12 w-full rounded-xl border border-ui-border-base bg-ui-bg-base px-4 pt-3 pb-1 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/35",
       },
     }
   }, [])

@@ -48,7 +48,7 @@ const AddAddress = ({
   return (
     <>
       <button
-        className="border border-ui-border-base rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
+        className="surface-card surface-card-hover flex h-full min-h-[220px] w-full flex-col justify-between border border-white/40 p-5"
         onClick={open}
         data-testid="add-address-button"
       >
@@ -136,7 +136,7 @@ const AddAddress = ({
             </div>
             {formState.error && (
               <div
-                className="text-rose-500 text-small-regular py-2"
+                className="mt-2 rounded-lg border border-rose-200/70 bg-rose-50/70 px-3 py-2 text-small-regular text-rose-600"
                 data-testid="address-error"
               >
                 {formState.error}
@@ -144,7 +144,7 @@ const AddAddress = ({
             )}
           </Modal.Body>
           <Modal.Footer>
-            <div className="flex gap-3 mt-6">
+            <div className="mt-6 flex gap-3">
               <Button
                 type="reset"
                 variant="secondary"

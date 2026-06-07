@@ -13,17 +13,23 @@ type Props = {
 }
 
 const Register = ({ setCurrentView }: Props) => {
-  const [message, formAction] = useActionState(signup as (state: string | null, formData: FormData) => Promise<string | null>, null as string | null)
+  const [message, formAction] = useActionState(
+    signup as (
+      state: string | null,
+      formData: FormData
+    ) => Promise<string | null>,
+    null as string | null
+  )
 
   return (
     <div
-      className="max-w-sm flex flex-col items-center"
+      className="flex w-full max-w-md flex-col items-center"
       data-testid="register-page"
     >
-      <h1 className="text-large-semi uppercase mb-6">
+      <h1 className="mb-3 text-center text-2xl font-semibold tracking-tight">
         Become a Medusa Store Member
       </h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-4">
+      <p className="mb-5 text-center text-base-regular text-ui-fg-subtle">
         Create your Medusa Store Member profile, and get access to an enhanced
         shopping experience.
       </p>
@@ -68,18 +74,18 @@ const Register = ({ setCurrentView }: Props) => {
           />
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
+        <span className="mt-6 text-center text-small-regular text-ui-fg-subtle">
           By creating an account, you agree to Medusa Store&apos;s{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
-            className="underline"
+            className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
           >
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
-            className="underline"
+            className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
           >
             Terms of Use
           </LocalizedClientLink>
@@ -89,11 +95,11 @@ const Register = ({ setCurrentView }: Props) => {
           Join
         </SubmitButton>
       </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
+      <span className="mt-6 text-center text-small-regular text-ui-fg-subtle">
         Already a member?{" "}
         <button
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-          className="underline"
+          className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
         >
           Sign in
         </button>

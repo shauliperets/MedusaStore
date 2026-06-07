@@ -23,14 +23,14 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         <h1 className="text-2xl-semi">Order details</h1>
         <LocalizedClientLink
           href="/account/orders"
-          className="flex gap-2 items-center text-ui-fg-subtle hover:text-ui-fg-base"
+          className="inline-flex items-center gap-2 rounded-lg border border-ui-border-base bg-ui-bg-base px-3 py-2 text-ui-fg-subtle transition-colors hover:text-ui-fg-base"
           data-testid="back-to-overview-button"
         >
           <XMark /> Back to overview
         </LocalizedClientLink>
       </div>
       <div
-        className="flex flex-col gap-4 h-full bg-white w-full"
+        className="surface-card flex h-full w-full flex-col gap-4 border border-white/40 p-4 small:p-5"
         data-testid="order-details-container"
       >
         <OrderDetails order={order} showStatus />

@@ -24,11 +24,14 @@ const OrderCard = ({ order }: OrderCardProps) => {
   }, [order])
 
   return (
-    <div className="bg-white flex flex-col" data-testid="order-card">
-      <div className="uppercase text-large-semi mb-1">
+    <div
+      className="surface-card flex flex-col border border-white/40 p-4 small:p-5"
+      data-testid="order-card"
+    >
+      <div className="mb-1 text-large-semi uppercase">
         #<span data-testid="order-display-id">{order.display_id}</span>
       </div>
-      <div className="flex items-center divide-x divide-gray-200 text-small-regular text-ui-fg-base">
+      <div className="flex items-center divide-x divide-ui-border-base text-small-regular text-ui-fg-base">
         <span className="pr-2" data-testid="order-created-at">
           {new Date(order.created_at).toDateString()}
         </span>
@@ -42,7 +45,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           numberOfLines > 1 ? "items" : "item"
         }`}</span>
       </div>
-      <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
+      <div className="my-4 grid grid-cols-2 gap-3 small:grid-cols-4">
         {order.items?.slice(0, 3).map((i) => {
           return (
             <div
@@ -65,7 +68,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           )
         })}
         {numberOfProducts > 4 && (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border border-ui-border-base bg-ui-bg-subtle/60">
             <span className="text-small-regular text-ui-fg-base">
               + {numberOfLines - 4}
             </span>

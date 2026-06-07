@@ -1,0 +1,23 @@
+Upgrade the entire UI of this Medusa project storefront to a modern design system.
+
+Goal: make the UI look like a SaaS product in 2026.
+
+Requirements:
+- Use a modern component library (preferably TailwindCSS + shadcn/ui or similar)
+- Improve spacing, typography, and layout consistency
+- Add modern buttons with hover/active states and micro-interactions
+- Replace all basic inputs with styled components
+- Add loading states and skeleton loaders (not simple spinners)
+- Add icons using a consistent icon set (Lucide / Heroicons)
+- Improve navigation (sidebar/topbar with modern SaaS feel)
+- Add card-based layout where relevant
+- Make UI responsive and mobile friendly
+- Add subtle animations (fade, slide, hover lift)
+- Ensure dark mode support if possible
+- Keep backend logic untouched — only UI/UX refactor
+
+Do a full visual redesign while preserving all functionality.
+Refactor components into reusable UI components where possible.
+
+Treat this as a full UI redesign project, not a minor styling update.
+Assume production-level SaaS UI standards like Stripe, Vercel, or Shopify admin.

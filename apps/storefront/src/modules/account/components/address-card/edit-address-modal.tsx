@@ -63,9 +63,9 @@ const EditAddress: React.FC<EditAddressProps> = ({
     <>
       <div
         className={clx(
-          "border rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          "surface-card surface-card-hover flex h-full min-h-[220px] w-full flex-col justify-between border border-white/40 p-5 transition-colors",
           {
-            "border-gray-900": isActive,
+            "border-sky-500/60": isActive,
           }
         )}
         data-testid="address-container"
@@ -209,13 +209,13 @@ const EditAddress: React.FC<EditAddressProps> = ({
               />
             </div>
             {formState.error && (
-              <div className="text-rose-500 text-small-regular py-2">
+              <div className="mt-2 rounded-lg border border-rose-200/70 bg-rose-50/70 px-3 py-2 text-small-regular text-rose-600">
                 {formState.error}
               </div>
             )}
           </Modal.Body>
           <Modal.Footer>
-            <div className="flex gap-3 mt-6">
+            <div className="mt-6 flex gap-3">
               <Button
                 type="reset"
                 variant="secondary"
