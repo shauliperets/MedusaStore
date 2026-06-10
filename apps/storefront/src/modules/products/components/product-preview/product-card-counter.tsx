@@ -59,30 +59,6 @@ export default function ProductCardCounter({
       onMouseLeave={() => setIsHover(false)}
     >
       <div className="flex items-center gap-x-3">
-        {/* Minus button */}
-        <button
-          onClick={handleMinus}
-          aria-label="Remove from cart"
-          className={[
-            "w-10 h-10 rounded-full bg-black/60 border-none cursor-pointer flex items-center justify-center",
-            "shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-300",
-            "hover:bg-black/80 hover:scale-110",
-            showMinus
-              ? "opacity-100 scale-100 pointer-events-auto"
-              : "opacity-0 scale-75 pointer-events-none",
-          ].join(" ")}
-        >
-          {/* Minus symbol */}
-          <span className="block w-[18px] h-[2px] bg-white rounded-full" />
-        </button>
-
-        {/* Counter */}
-        {showButtons && (
-          <span className="text-white font-semibold text-base min-w-[1.5ch] text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-            {counter}
-          </span>
-        )}
-
         {/* Plus button */}
         <button
           onClick={handlePlus}
@@ -103,6 +79,30 @@ export default function ProductCardCounter({
           {/* Plus symbol */}
           <span className="absolute block w-[18px] h-[2px] bg-white rounded-full" />
           <span className="absolute block w-[2px] h-[18px] bg-white rounded-full" />
+        </button>
+
+        {/* Counter */}
+        {showButtons && (
+          <span className="text-white font-semibold text-base min-w-[1.5ch] text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+            {counter}
+          </span>
+        )}
+
+        {/* Minus button */}
+        <button
+          onClick={handleMinus}
+          aria-label="Remove from cart"
+          className={[
+            "w-10 h-10 rounded-full bg-black/60 border-none cursor-pointer flex items-center justify-center",
+            "shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition-all duration-300",
+            "hover:bg-black/80 hover:scale-110",
+            showMinus
+              ? "opacity-100 scale-100 pointer-events-auto"
+              : "opacity-0 scale-75 pointer-events-none",
+          ].join(" ")}
+        >
+          {/* Minus symbol */}
+          <span className="block w-[18px] h-[2px] bg-white rounded-full" />
         </button>
       </div>
     </div>

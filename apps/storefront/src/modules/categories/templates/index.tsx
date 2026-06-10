@@ -56,7 +56,6 @@ export default function CategoryTemplate({
               </LocalizedClientLink>
             ))}
           {!!parents.length && <span>/</span>}
-          <span className="text-[var(--text-base)]">{category.name}</span>
         </div>
         <Heading level="h1" data-testid="category-page-title" className="mb-2">
           {category.name}

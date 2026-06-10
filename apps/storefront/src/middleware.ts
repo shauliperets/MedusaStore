@@ -45,7 +45,7 @@ async function getTenantForRequest(host: string): Promise<TenantConfig | null> {
   try {
     const res = await fetch(
       `${BACKEND_URL}/store/tenants?subdomain=${encodeURIComponent(subdomain)}`,
-      { cache: "no-store" }
+      { next: { revalidate: 3600 } }
     )
     if (!res.ok) {
       tenantCache.set(subdomain, { data: null, ts: Date.now() })
@@ -97,7 +97,6 @@ async function getRegionMap(cacheId: string, publishableKey?: string | null) {
         revalidate: 3600,
         tags: [`regions-${cacheId}`],
       },
-      cache: "force-cache",
     })
 
     if (!response.ok) {

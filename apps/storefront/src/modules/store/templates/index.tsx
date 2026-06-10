@@ -43,9 +43,6 @@ const StoreTemplate = async ({
                   <Heading level="h2" className="text-xl">
                     {t("allProducts")}
                   </Heading>
-                  <Text className="text-sm text-[var(--text-muted)]">
-                    Browse by category and sort to find what fits best.
-                  </Text>
                 </div>
 
                 <div className="flex items-center gap-3">

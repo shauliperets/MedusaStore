@@ -21,7 +21,6 @@ export const listLocales = async (): Promise<Locale[] | null> => {
     .fetch<{ locales: Locale[] }>(`/store/locales`, {
       method: "GET",
       next,
-      cache: "force-cache",
     })
     .then(({ locales }) => locales)
     .catch(() => null)

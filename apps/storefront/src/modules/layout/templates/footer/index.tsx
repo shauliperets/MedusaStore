@@ -15,15 +15,10 @@ export default async function Footer() {
     <footer className="border-t border-[var(--surface-border)] w-full">
       <div className="content-shell flex flex-col w-full">
         <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-20">
-          <div>
-            <LocalizedClientLink href="/" className="text-xl-semi uppercase">
-              Medusa Store
-            </LocalizedClientLink>
-          </div>
           <div className="text-sm gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
             {product_categories && product_categories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="font-semibold">Categories</span>
+                <span className="font-semibold">{t("categories")}</span>
                 <ul className="grid grid-cols-1 gap-2">
                   {product_categories
                     ?.slice(0, 6)
@@ -89,48 +84,7 @@ export default async function Footer() {
                 </ul>
               </div>
             )}
-            <div className="flex flex-col gap-y-2">
-              <span className="font-semibold">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-[var(--text-muted)]">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-[var(--text-base)]"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-[var(--text-base)]"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-[var(--text-base)]"
-                  >
-                    Source Code
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
-        </div>
-        <div className="flex w-full mb-16 justify-between text-[var(--text-muted)]">
-          <Text className="text-sm">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
-          </Text>
-          <MedusaCTA />
         </div>
       </div>
     </footer>

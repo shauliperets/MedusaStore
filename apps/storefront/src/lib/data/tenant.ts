@@ -31,7 +31,6 @@ export async function getTenantBySubdomain(
       `${BACKEND_URL}/store/tenants?subdomain=${encodeURIComponent(subdomain)}`,
       {
         next: { revalidate: 300, tags: [`tenant-${subdomain}`] },
-        cache: "force-cache",
       }
     )
 
