@@ -1,0 +1,54 @@
+{
+  "languageSwitcher": {
+    "english": "English",
+    "hebrew": "עברית"
+  },
+  "tenants": {
+    "title": "Tenants",
+    "description": "Manage storefront tenants and branding metadata.",
+    "newTenant": "New Tenant",
+    "noTenants": "No tenants yet.",
+    "loadError": "Failed to load tenants",
+    "deleteConfirm": "Delete this tenant?",
+    "edit": "Edit",
+    "delete": "Delete",
+    "locale": "Locale",
+    "form": {
+      "title": "Tenant Configuration",
+      "description": "Configure storefront settings and branding",
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "fields": {
+        "subdomain": "Subdomain",
+        "subdomainPlaceholder": "e.g. store1",
+        "subdomainTooltip": "The unique subdomain prefix used to access this storefront",
+        "storeName": "Store Name",
+        "storeNamePlaceholder": "e.g. My Store",
+        "storeNameTooltip": "The display name of the store shown to customers",
+        "headline": "Headline",
+        "headlinePlaceholder": "Hero headline shown on storefront",
+        "headlineTooltip": "The main heading displayed on the storefront homepage hero section",
+        "tagline": "Tagline",
+        "taglinePlaceholder": "Subtitle under the headline",
+        "taglineTooltip": "The subtitle text displayed below the headline on the homepage",
+        "logoText": "Logo Text",
+        "logoTextPlaceholder": "Text shown in the nav bar",
+        "logoTextTooltip": "The text displayed in the navigation bar as the store logo",
+        "publishableApiKey": "Publishable API Key",
+        "publishableApiKeyPlaceholder": "pk_...",
+        "publishableApiKeyTooltip": "The public API key used by the storefront to authenticate requests to the backend",
+        "regionId": "Region ID",
+        "regionIdPlaceholder": "Optional: defaults to first region",
+        "regionIdTooltip": "The Medusa region this storefront operates in (leave empty to use the default region)",
+        "defaultLocale": "Default Locale",
+        "defaultLocalePlaceholder": "en or he",
+        "defaultLocaleTooltip": "The default language for the storefront interface (en for English, he for Hebrew)"
+      }
+    }
+  },
+  "regionPayment": {
+    "title": "Payment providers are not selected",
+    "description": "This region cannot accept payments until at least one provider is configured (for example, System).",
+    "tooltip": "Each region requires at least one payment provider to process customer payments"
+  }
+}

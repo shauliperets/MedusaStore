@@ -12,13 +12,16 @@ import { getTranslations } from "next-intl/server"
 import { getLocale } from "next-intl/server"
 
 export default async function Nav() {
-  const [storeName, regions, locales, currentLocale, t] = await Promise.all([
-    getTenantStoreName(),
-    listRegions(),
-    listLocales(),
-    getLocale(),
-    getTranslations("nav"),
-  ])
+  const [storeName, regions, locales, currentLocale, t, tt] = await Promise.all(
+    [
+      getTenantStoreName(),
+      listRegions(),
+      listLocales(),
+      getLocale(),
+      getTranslations("nav"),
+      getTranslations("tooltips"),
+    ]
+  )
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
@@ -37,6 +40,7 @@ export default async function Nav() {
                 href="/store"
                 className="hover:text-[var(--brand-primary)] transition-colors"
                 data-testid="nav-store-link"
+                title={tt("nav.store")}
               >
                 <Home aria-hidden="true" className="h-6 w-6" />
               </LocalizedClientLink>
@@ -60,6 +64,7 @@ export default async function Nav() {
                 className="hover:text-[var(--brand-primary)] transition-colors"
                 href="/account"
                 data-testid="nav-account-link"
+                title={tt("nav.account")}
               >
                 {t("account")}
               </LocalizedClientLink>

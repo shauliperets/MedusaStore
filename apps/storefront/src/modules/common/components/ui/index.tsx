@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { Loader2 } from "lucide-react"
+import { HelpCircle, Loader2 } from "lucide-react"
 import {
   ButtonHTMLAttributes,
   forwardRef,
@@ -13,6 +13,29 @@ import {
 
 // Re-export clsx as clx for compatibility
 export { clsx as clx }
+
+// InfoTooltip Component — a ? icon with a native tooltip
+type InfoTooltipProps = {
+  tooltip: string
+  className?: string
+}
+
+export const InfoTooltip = forwardRef<HTMLSpanElement, InfoTooltipProps>(
+  ({ tooltip, className }, ref) => (
+    <span
+      ref={ref}
+      title={tooltip}
+      className={clsx(
+        "ml-1.5 inline-flex cursor-help items-center justify-center text-[var(--text-muted)] transition-colors hover:text-[var(--text-base)]",
+        className
+      )}
+      aria-label={tooltip}
+    >
+      <HelpCircle size={14} />
+    </span>
+  )
+)
+InfoTooltip.displayName = "InfoTooltip"
 
 // Text Component
 type TextProps = HTMLAttributes<HTMLParagraphElement> & {

@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { InfoTooltip } from "@modules/common/components/ui"
 
 type SortDropdownProps = {
   sortBy: SortOptions
@@ -15,6 +16,7 @@ const SortDropdown = ({ sortBy }: SortDropdownProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const t = useTranslations("store")
+  const tt = useTranslations("tooltips")
 
   const sortOptions = [
     { value: "created_at", label: t("latestArrivals") },
@@ -33,8 +35,9 @@ const SortDropdown = ({ sortBy }: SortDropdownProps) => {
 
   return (
     <div className="flex items-center gap-x-2 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-elevated)] px-3 py-2">
-      <label className="text-small-semi text-[var(--text-muted)] whitespace-nowrap">
+      <label className="text-small-semi text-[var(--text-muted)] whitespace-nowrap inline-flex items-center">
         {t("sortBy")}:
+        <InfoTooltip tooltip={tt("store.sortBy")} />
       </label>
       <select
         value={sortBy}

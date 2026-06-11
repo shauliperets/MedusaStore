@@ -8,10 +8,11 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import SortDropdown from "@modules/store/components/sort-dropdown"
 import MobileFiltersDrawer from "@modules/store/templates/mobile-filters-drawer"
-import { Card, Heading, Text } from "@modules/common/components/ui"
+import { Card, Heading, InfoTooltip, Text } from "@modules/common/components/ui"
 import { HttpTypes } from "@medusajs/types"
+import { getTranslations } from "next-intl/server"
 
-export default function CategoryTemplate({
+export default async function CategoryTemplate({
   category,
   sortBy,
   page,
@@ -22,6 +23,7 @@ export default function CategoryTemplate({
   page?: string
   countryCode: string
 }) {
+  const tt = await getTranslations("tooltips")
   const parsedPageNumber = page ? parseInt(page, 10) : 1
   const pageNumber = Number.isNaN(parsedPageNumber) ? 1 : parsedPageNumber
   const sort = sortBy || "created_at"
@@ -57,8 +59,13 @@ export default function CategoryTemplate({
             ))}
           {!!parents.length && <span>/</span>}
         </div>
-        <Heading level="h1" data-testid="category-page-title" className="mb-2">
+        <Heading
+          level="h1"
+          data-testid="category-page-title"
+          className="mb-2 inline-flex items-center"
+        >
           {category.name}
+          <InfoTooltip tooltip={tt("store.filters")} />
         </Heading>
         {category.description && (
           <Text className="max-w-2xl text-sm text-[var(--text-muted)]">

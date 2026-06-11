@@ -2,6 +2,7 @@
 
 import { defineWidgetConfig } from "@medusajs/admin-sdk";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 type Tenant = {
   id: string;
@@ -15,6 +16,50 @@ type Tenant = {
   default_locale: string;
 };
 
+const InfoIcon = ({ tooltip }: { tooltip: string }) => (
+  <span
+    title={tooltip}
+    className="ml-1.5 inline-flex h-5 w-5 cursor-help items-center justify-center rounded-full border border-ui-border-strong bg-ui-bg-subtle text-[11px] font-bold text-ui-fg-muted transition-colors hover:bg-ui-tag-blue-bg hover:text-ui-tag-blue-text hover:border-ui-tag-blue-border"
+    aria-label={tooltip}
+  >
+    ?
+  </span>
+);
+
+const LanguageSwitcher = () => {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language?.startsWith("he") ? "he" : "en";
+
+  const switchTo = (lang: "en" | "he") => {
+    i18n.changeLanguage(lang);
+  };
+
+  return (
+    <div className="inline-flex items-center gap-1 rounded-xl border border-ui-border-base bg-ui-bg-subtle p-1">
+      <button
+        onClick={() => switchTo("en")}
+        className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+          currentLang === "en"
+            ? "bg-white text-ui-fg-base shadow-sm dark:bg-slate-800"
+            : "text-ui-fg-muted hover:text-ui-fg-base"
+        }`}
+      >
+        {currentLang === "en" && "✓ "}🇬🇧 {t("languageSwitcher.english")}
+      </button>
+      <button
+        onClick={() => switchTo("he")}
+        className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+          currentLang === "he"
+            ? "bg-white text-ui-fg-base shadow-sm dark:bg-slate-800"
+            : "text-ui-fg-muted hover:text-ui-fg-base"
+        }`}
+      >
+        {currentLang === "he" && "✓ "}🇮🇱 {t("languageSwitcher.hebrew")}
+      </button>
+    </div>
+  );
+};
+
 const TenantForm = ({
   tenant,
   onSave,
@@ -24,9 +69,61 @@ const TenantForm = ({
   onSave: (data: Partial<Tenant>) => void;
   onCancel: () => void;
 }) => {
+  const { t } = useTranslation();
   const [form, setForm] = useState<Partial<Tenant>>(tenant);
 
   const update = (field: keyof Tenant, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
+
+  const fields: { field: keyof Tenant; labelKey: string; placeholderKey: string; tooltipKey: string }[] = [
+    {
+      field: "subdomain",
+      labelKey: "tenants.form.fields.subdomain",
+      placeholderKey: "tenants.form.fields.subdomainPlaceholder",
+      tooltipKey: "tenants.form.fields.subdomainTooltip",
+    },
+    {
+      field: "store_name",
+      labelKey: "tenants.form.fields.storeName",
+      placeholderKey: "tenants.form.fields.storeNamePlaceholder",
+      tooltipKey: "tenants.form.fields.storeNameTooltip",
+    },
+    {
+      field: "headline",
+      labelKey: "tenants.form.fields.headline",
+      placeholderKey: "tenants.form.fields.headlinePlaceholder",
+      tooltipKey: "tenants.form.fields.headlineTooltip",
+    },
+    {
+      field: "tagline",
+      labelKey: "tenants.form.fields.tagline",
+      placeholderKey: "tenants.form.fields.taglinePlaceholder",
+      tooltipKey: "tenants.form.fields.taglineTooltip",
+    },
+    {
+      field: "logo_text",
+      labelKey: "tenants.form.fields.logoText",
+      placeholderKey: "tenants.form.fields.logoTextPlaceholder",
+      tooltipKey: "tenants.form.fields.logoTextTooltip",
+    },
+    {
+      field: "publishable_api_key",
+      labelKey: "tenants.form.fields.publishableApiKey",
+      placeholderKey: "tenants.form.fields.publishableApiKeyPlaceholder",
+      tooltipKey: "tenants.form.fields.publishableApiKeyTooltip",
+    },
+    {
+      field: "region_id",
+      labelKey: "tenants.form.fields.regionId",
+      placeholderKey: "tenants.form.fields.regionIdPlaceholder",
+      tooltipKey: "tenants.form.fields.regionIdTooltip",
+    },
+    {
+      field: "default_locale",
+      labelKey: "tenants.form.fields.defaultLocale",
+      placeholderKey: "tenants.form.fields.defaultLocalePlaceholder",
+      tooltipKey: "tenants.form.fields.defaultLocaleTooltip",
+    },
+  ];
 
   return (
     <div className="rounded-2xl border border-ui-border-base bg-ui-bg-base p-6 shadow-sm">
@@ -35,29 +132,21 @@ const TenantForm = ({
           <span className="text-base font-semibold">T</span>
         </div>
         <div>
-          <p className="text-base font-semibold text-ui-fg-base">Tenant Configuration</p>
-          <p className="text-xs text-ui-fg-subtle">Configure storefront settings and branding</p>
+          <p className="text-base font-semibold text-ui-fg-base">{t("tenants.form.title")}</p>
+          <p className="text-xs text-ui-fg-subtle">{t("tenants.form.description")}</p>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        {(
-          [
-            ["subdomain", "Subdomain", "e.g. store1"],
-            ["store_name", "Store Name", "e.g. My Store"],
-            ["headline", "Headline", "Hero headline shown on storefront"],
-            ["tagline", "Tagline", "Subtitle under the headline"],
-            ["logo_text", "Logo Text", "Text shown in the nav bar"],
-            ["publishable_api_key", "Publishable API Key", "pk_..."],
-            ["region_id", "Region ID", "Optional: defaults to first region"],
-            ["default_locale", "Default Locale", "en or he"],
-          ] as [keyof Tenant, string, string][]
-        ).map(([field, label, placeholder]) => (
+        {fields.map(({ field, labelKey, placeholderKey, tooltipKey }) => (
           <div key={field} className="flex flex-col gap-1.5">
-            <label className="text-ui-fg-base text-xs font-semibold uppercase tracking-wide">{label}</label>
+            <label className="text-ui-fg-base text-xs font-semibold uppercase tracking-wide inline-flex items-center gap-1">
+              {t(labelKey)}
+              <InfoIcon tooltip={t(tooltipKey)} />
+            </label>
             <input
               className="h-10 rounded-xl border border-ui-border-base bg-ui-bg-field px-3 text-sm text-ui-fg-base transition-colors focus:border-ui-border-interactive focus:outline-none focus:ring-2 focus:ring-ui-border-interactive/20"
               value={(form[field] as string) ?? ""}
-              placeholder={placeholder}
+              placeholder={t(placeholderKey)}
               onChange={(e) => update(field, e.target.value)}
             />
           </div>
@@ -68,13 +157,13 @@ const TenantForm = ({
           className="inline-flex h-10 items-center gap-2 rounded-xl bg-indigo-600 px-6 text-sm font-semibold text-white transition-all hover:bg-indigo-700 hover:shadow-md active:scale-[0.98]"
           onClick={() => onSave(form)}
         >
-          Save Changes
+          {t("tenants.form.save")}
         </button>
         <button
           className="inline-flex h-10 items-center rounded-xl border border-ui-border-base px-4 text-sm font-medium text-ui-fg-subtle transition-all hover:bg-ui-bg-subtle hover:text-ui-fg-base"
           onClick={onCancel}
         >
-          Cancel
+          {t("tenants.form.cancel")}
         </button>
       </div>
     </div>
@@ -82,6 +171,7 @@ const TenantForm = ({
 };
 
 const TenantsWidget = () => {
+  const { t } = useTranslation();
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -95,7 +185,7 @@ const TenantsWidget = () => {
       const data = await res.json();
       setTenants(data.tenants ?? []);
     } catch {
-      setError("Failed to load tenants");
+      setError(t("tenants.loadError"));
     } finally {
       setLoading(false);
     }
@@ -126,7 +216,7 @@ const TenantsWidget = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this tenant?")) return;
+    if (!confirm(t("tenants.deleteConfirm"))) return;
     await fetch(`/admin/tenants/${id}`, { method: "DELETE" });
     load();
   };
@@ -135,18 +225,21 @@ const TenantsWidget = () => {
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold text-ui-fg-base">Tenants</h2>
-          <p className="text-sm text-ui-fg-subtle">Manage storefront tenants and branding metadata.</p>
+          <h2 className="text-xl font-semibold text-ui-fg-base">{t("tenants.title")}</h2>
+          <p className="text-sm text-ui-fg-subtle">{t("tenants.description")}</p>
         </div>
-        <button
-          className="inline-flex h-10 items-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white transition-all hover:bg-indigo-700 hover:shadow-md active:scale-[0.98]"
-          onClick={() => setCreating(true)}
-        >
-          <span aria-hidden="true" className="text-lg">
-            +
-          </span>{" "}
-          New Tenant
-        </button>
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <button
+            className="inline-flex h-10 items-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white transition-all hover:bg-indigo-700 hover:shadow-md active:scale-[0.98]"
+            onClick={() => setCreating(true)}
+          >
+            <span aria-hidden="true" className="text-lg">
+              +
+            </span>{" "}
+            {t("tenants.newTenant")}
+          </button>
+        </div>
       </div>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -162,7 +255,7 @@ const TenantsWidget = () => {
         </div>
       ) : tenants.length === 0 ? (
         <div className="rounded-xl border border-dashed border-ui-border-base bg-ui-bg-subtle p-6 text-sm text-ui-fg-subtle">
-          No tenants yet.
+          {t("tenants.noTenants")}
         </div>
       ) : (
         <div className="flex flex-col gap-4">
@@ -186,20 +279,22 @@ const TenantsWidget = () => {
                   </p>
                   {tenant.headline && <p className="text-sm text-ui-fg-subtle">{tenant.headline}</p>}
                   {tenant.tagline && <p className="text-xs text-ui-fg-muted">{tenant.tagline}</p>}
-                  <p className="text-xs text-ui-fg-muted mt-1">Locale: {tenant.default_locale}</p>
+                  <p className="text-xs text-ui-fg-muted mt-1">
+                    {t("tenants.locale")}: {tenant.default_locale}
+                  </p>
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <button
                     className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 transition-colors"
                     onClick={() => setEditingId(tenant.id)}
                   >
-                    Edit
+                    {t("tenants.edit")}
                   </button>
                   <button
                     className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
                     onClick={() => handleDelete(tenant.id)}
                   >
-                    Delete
+                    {t("tenants.delete")}
                   </button>
                 </div>
               </div>

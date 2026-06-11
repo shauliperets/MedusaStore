@@ -1,4 +1,4 @@
-import { Text } from "@modules/common/components/ui"
+import { InfoTooltip, Text } from "@modules/common/components/ui"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -10,6 +10,7 @@ export default async function Footer() {
   const { collections } = await listCollections()
   const product_categories = await listCategories()
   const t = await getTranslations("footer")
+  const tt = await getTranslations("tooltips")
 
   return (
     <footer className="border-t border-[var(--surface-border)] w-full">
@@ -18,7 +19,10 @@ export default async function Footer() {
           <div className="text-sm gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
             {product_categories && product_categories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="font-semibold">{t("categories")}</span>
+                <span className="font-semibold inline-flex items-center">
+                  {t("categories")}
+                  <InfoTooltip tooltip={tt("footer.categories")} />
+                </span>
                 <ul className="grid grid-cols-1 gap-2">
                   {product_categories
                     ?.slice(0, 6)
@@ -67,7 +71,10 @@ export default async function Footer() {
             )}
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="font-semibold">Collections</span>
+                <span className="font-semibold inline-flex items-center">
+                  {t("collections")}
+                  <InfoTooltip tooltip={tt("footer.collections")} />
+                </span>
                 <ul className="grid grid-cols-1 gap-2 text-[var(--text-muted)]">
                   {collections
                     ?.slice(0, 6)

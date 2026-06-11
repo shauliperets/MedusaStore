@@ -1,0 +1,54 @@
+{
+  "languageSwitcher": {
+    "english": "אנגלית",
+    "hebrew": "עברית"
+  },
+  "tenants": {
+    "title": "דיירים",
+    "description": "ניהול דיירי חנות ומטא-נתוני מיתוג.",
+    "newTenant": "דייר חדש",
+    "noTenants": "אין דיירים עדיין.",
+    "loadError": "טעינת הדיירים נכשלה",
+    "deleteConfirm": "למחוק דייר זה?",
+    "edit": "ערוך",
+    "delete": "מחק",
+    "locale": "שפה",
+    "form": {
+      "title": "הגדרות דייר",
+      "description": "הגדר תצורת חנות ומיתוג",
+      "save": "שמור שינויים",
+      "cancel": "ביטול",
+      "fields": {
+        "subdomain": "תת-דומיין",
+        "subdomainPlaceholder": "למשל store1",
+        "subdomainTooltip": "קידומת תת-הדומיין הייחודית לגישה לחנות זו",
+        "storeName": "שם החנות",
+        "storeNamePlaceholder": "למשל החנות שלי",
+        "storeNameTooltip": "שם התצוגה של החנות המוצג ללקוחות",
+        "headline": "כותרת ראשית",
+        "headlinePlaceholder": "כותרת ראשית המוצגת בדף הבית",
+        "headlineTooltip": "הכותרת הראשית המוצגת באזור ההירו של דף הבית",
+        "tagline": "כותרת משנה",
+        "taglinePlaceholder": "כותרת משנה מתחת לכותרת הראשית",
+        "taglineTooltip": "טקסט כותרת המשנה המוצג מתחת לכותרת הראשית בדף הבית",
+        "logoText": "טקסט לוגו",
+        "logoTextPlaceholder": "טקסט המוצג בסרגל הניווט",
+        "logoTextTooltip": "הטקסט המוצג בסרגל הניווט כלוגו החנות",
+        "publishableApiKey": "מפתח API ציבורי",
+        "publishableApiKeyPlaceholder": "pk_...",
+        "publishableApiKeyTooltip": "מפתח ה-API הציבורי המשמש את החנות לאימות מול השרת",
+        "regionId": "מזהה אזור",
+        "regionIdPlaceholder": "אופציונלי: ברירת מחדל לאזור הראשון",
+        "regionIdTooltip": "אזור מדוזה בו החנות פועלת (השאר ריק לשימוש באזור ברירת המחדל)",
+        "defaultLocale": "שפת ברירת מחדל",
+        "defaultLocalePlaceholder": "en או he",
+        "defaultLocaleTooltip": "שפת ברירת המחדל של ממשק החנות (en לאנגלית, he לעברית)"
+      }
+    }
+  },
+  "regionPayment": {
+    "title": "ספקי תשלומים לא נבחרו",
+    "description": "אזור זה אינו יכול לקבל תשלומים עד שלפחות ספק אחד מוגדר (לדוגמה, System).",
+    "tooltip": "כל אזור דורש לפחות ספק תשלומים אחד לעיבוד תשלומי לקוחות"
+  }
+}
