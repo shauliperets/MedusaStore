@@ -37,9 +37,9 @@ export default async function ProductPreview({
             className="transition-transform duration-300 group-hover:scale-[1.03]"
           />
           <ProductCardCounter
-            variantId={
+            variant={
               product.variants?.length === 1
-                ? product.variants[0].id ?? null
+                ? product.variants[0] ?? null
                 : null
             }
           />

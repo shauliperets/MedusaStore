@@ -76,7 +76,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  {t("cart")} (0)
+                  {t("cart", { count: 0 })}
                 </LocalizedClientLink>
               }
             >

@@ -46,6 +46,17 @@
       }
     }
   },
+  "stockLocationWarning": {
+    "title": "Stock location not configured",
+    "description": "No stock location is linked to a sales channel. Products with inventory management enabled and backorders disabled will silently fail when customers try to add them to cart.",
+    "affectedVariants": "Affected variants",
+    "defaultVariant": "Default variant",
+    "inventoryOnNoBackorder": "Inventory ON, Backorder OFF, No stock",
+    "action": "Action: Go to Settings → Inventory → create a Stock Location and link it to a Sales Channel, or enable Backorders on each affected variant.",
+    "perVariantTitle": "Variant \"{variant}\" may fail to add to cart",
+    "perVariantDescription": "This variant has manage_inventory enabled and backorders disabled. Ensure a stock location is linked to this product's sales channel, or enable backorders.",
+    "tooltip": "Medusa requires a stock location linked to a sales channel for variants with managed inventory and no backorders."
+  },
   "regionPayment": {
     "title": "Payment providers are not selected",
     "description": "This region cannot accept payments until at least one provider is configured (for example, System).",
