@@ -1,3 +1,5 @@
+"use client"
+
 import { deleteLineItem } from "@lib/data/cart"
 import { Spinner, Trash } from "@medusajs/icons"
 import { clx } from "@modules/common/components/ui"
@@ -16,9 +18,15 @@ const DeleteButton = ({
 
   const handleDelete = async (id: string) => {
     setIsDeleting(true)
-    await deleteLineItem(id).catch((_err) => {
+    try {
+      await deleteLineItem(id)
+      // Notify the cart store context (and any other listeners) that the
+      // cart has changed. No "cart-store" source tag so the context
+      // will re-fetch from the server and clear this item from state.
+      window.dispatchEvent(new CustomEvent("cart-updated"))
+    } catch (_err) {
       setIsDeleting(false)
-    })
+    }
   }
 
   return (

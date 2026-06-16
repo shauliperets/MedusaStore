@@ -49,6 +49,10 @@ export const config = defineWidgetConfig({
     "customer.details.before",
     "order.details.before",
     "region.details.before",
+    "product_category.list.before",
+    "location.list.before",
+    "inventory_item.list.before",
+    "promotion.list.before",
   ],
 });
 

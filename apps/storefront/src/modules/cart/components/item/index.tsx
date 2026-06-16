@@ -1,17 +1,19 @@
 "use client"
 
 import { Table, Text, clx } from "@modules/common/components/ui"
-import { updateLineItem } from "@lib/data/cart"
+import { deleteLineItem } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
-import CartItemSelect from "@modules/cart/components/cart-item-select"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LineItemUnitPrice from "@modules/common/components/line-item-unit-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import Spinner from "@modules/common/icons/spinner"
 import Thumbnail from "@modules/products/components/thumbnail"
+import {
+  useCartStore,
+  getAvailableInventory,
+} from "@lib/context/cart-store-context"
 import { useState } from "react"
 
 type ItemProps = {
@@ -21,28 +23,50 @@ type ItemProps = {
 }
 
 const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
-  const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { state, dispatch } = useCartStore()
 
-  const changeQuantity = async (quantity: number) => {
+  const variantId = item.variant_id
+  const maxQuantity = getAvailableInventory(item.variant ?? null)
+
+  // Read live quantity from the cart store — falls back to the server-prop
+  // quantity for items not yet initialised in the store.
+  const liveQuantity = variantId
+    ? state.items[variantId]?.quantity ?? item.quantity
+    : item.quantity
+
+  const handleQuantityChange = (quantity: number) => {
+    if (!variantId) return
     setError(null)
-    setUpdating(true)
-
-    await updateLineItem({
-      lineId: item.id,
-      quantity,
-    })
-      .catch((err) => {
-        setError(err.message)
-      })
-      .finally(() => {
-        setUpdating(false)
-      })
+    dispatch({ type: "SET_QUANTITY", variantId, quantity, max: maxQuantity })
   }
 
-  // TODO: Update this to grab the actual max inventory
-  const maxQtyFromInventory = 10
-  const maxQuantity = item.variant?.manage_inventory ? 10 : maxQtyFromInventory
+  const handleDelete = async () => {
+    if (!variantId) return
+    setError(null)
+
+    try {
+      await deleteLineItem(item.id)
+      // Notify the cart store context to re-fetch (no cart-store source tag)
+      window.dispatchEvent(new CustomEvent("cart-updated"))
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
+  const handlePlus = () => {
+    if (!variantId) return
+    handleQuantityChange(liveQuantity + 1)
+  }
+
+  const handleMinus = () => {
+    if (!variantId) return
+    if (liveQuantity <= 1) {
+      handleDelete()
+    } else {
+      handleQuantityChange(liveQuantity - 1)
+    }
+  }
 
   return (
     <Table.Row className="w-full" data-testid="product-row">
@@ -74,31 +98,48 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       {type === "full" && (
         <Table.Cell>
-          <div className="flex gap-2 items-center w-28">
+          <div className="flex gap-2 items-center">
             <DeleteButton id={item.id} data-testid="product-delete-button" />
-            <CartItemSelect
-              value={item.quantity}
-              onChange={(value) => changeQuantity(parseInt(value.target.value))}
-              className="w-14 h-10 p-4"
-              data-testid="product-select-button"
-            >
-              {/* TODO: Update this with the v2 way of managing inventory */}
-              {Array.from(
-                {
-                  length: Math.min(maxQuantity, 10),
-                },
-                (_, i) => (
-                  <option value={i + 1} key={i}>
-                    {i + 1}
-                  </option>
-                )
-              )}
+            <div className="flex items-center gap-x-2">
+              {/* Plus button */}
+              <button
+                onClick={handlePlus}
+                disabled={liveQuantity >= maxQuantity}
+                aria-label="Increase quantity"
+                title={
+                  liveQuantity >= maxQuantity
+                    ? "Maximum quantity reached"
+                    : "Increase quantity"
+                }
+                className={[
+                  "w-8 h-8 rounded-full border border-grey-20 cursor-pointer relative flex items-center justify-center",
+                  "transition-all duration-200",
+                  "hover:bg-grey-10 hover:border-grey-40",
+                  "disabled:opacity-50 disabled:cursor-not-allowed",
+                ].join(" ")}
+              >
+                <span className="absolute block w-3 h-[2px] bg-grey-60 rounded-full" />
+                <span className="absolute block w-[2px] h-3 bg-grey-60 rounded-full" />
+              </button>
 
-              <option value={1} key={1}>
-                1
-              </option>
-            </CartItemSelect>
-            {updating && <Spinner />}
+              {/* Live quantity from cart store */}
+              <span className="text-sm font-medium min-w-[1.5ch] text-center tabular-nums">
+                {liveQuantity}
+              </span>
+
+              {/* Minus button */}
+              <button
+                onClick={handleMinus}
+                aria-label="Decrease quantity"
+                className={[
+                  "w-8 h-8 rounded-full border border-grey-20 cursor-pointer flex items-center justify-center",
+                  "transition-all duration-200",
+                  "hover:bg-grey-10 hover:border-grey-40",
+                ].join(" ")}
+              >
+                <span className="block w-3 h-[2px] bg-grey-60 rounded-full" />
+              </button>
+            </div>
           </div>
           <ErrorMessage error={error} data-testid="product-error-message" />
         </Table.Cell>
@@ -122,7 +163,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         >
           {type === "preview" && (
             <span className="flex gap-x-1 ">
-              <Text className="text-ui-fg-muted">{item.quantity}x </Text>
+              <Text className="text-ui-fg-muted">{liveQuantity}x </Text>
               <LineItemUnitPrice
                 item={item}
                 style="tight"

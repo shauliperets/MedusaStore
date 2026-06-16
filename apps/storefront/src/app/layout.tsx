@@ -27,7 +27,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-mode="light"
       className={inter.variable}
     >
-      <body className="app-surface min-h-screen text-base antialiased">
+      <body
+        className="app-surface min-h-screen text-base antialiased"
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider messages={messages}>
           <main className="relative min-h-screen">{props.children}</main>
         </NextIntlClientProvider>

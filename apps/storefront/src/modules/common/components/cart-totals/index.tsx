@@ -2,8 +2,6 @@
 
 import { convertToLocale } from "@lib/util/money"
 import React from "react"
-import { useTranslations } from "next-intl"
-import { InfoTooltip } from "@modules/common/components/ui"
 
 type CartTotalsProps = {
   totals: {
@@ -26,7 +24,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     shipping_subtotal,
     discount_subtotal,
   } = totals
-  const tt = useTranslations("tooltips")
 
   return (
     <div>
@@ -34,7 +31,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center">
             Subtotal (excl. shipping and taxes)
-            <InfoTooltip tooltip={tt("cart.subtotal")} />
           </span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code })}

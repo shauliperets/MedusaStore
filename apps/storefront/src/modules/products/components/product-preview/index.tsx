@@ -1,8 +1,7 @@
-import { InfoTooltip, Text } from "@modules/common/components/ui"
+import { Text } from "@modules/common/components/ui"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { getTranslations } from "next-intl/server"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
 import ProductCardCounter from "./product-card-counter"
@@ -16,8 +15,6 @@ export default async function ProductPreview({
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
 }) {
-  const tt = await getTranslations("tooltips")
-
   const { cheapestPrice } = getProductPrice({
     product,
   })
@@ -53,10 +50,7 @@ export default async function ProductPreview({
           </Text>
           <div className="flex items-center gap-x-2 shrink-0 ms-2">
             {cheapestPrice && (
-              <span
-                title={tt("product.price")}
-                className="inline-flex items-center"
-              >
+              <span className="inline-flex items-center">
                 <PreviewPrice price={cheapestPrice} />
               </span>
             )}

@@ -1,13 +1,8 @@
 import { getTenant } from "@lib/context/tenant-context"
 import { getTranslations } from "next-intl/server"
-import { InfoTooltip } from "@modules/common/components/ui"
 
 export default async function TenantHeroBanner() {
-  const [tenant, t, tt] = await Promise.all([
-    getTenant(),
-    getTranslations("hero"),
-    getTranslations("tooltips"),
-  ])
+  const [tenant, t] = await Promise.all([getTenant(), getTranslations("hero")])
 
   const headline = tenant?.headline ?? t("defaultHeadline")
   const tagline = tenant?.tagline ?? t("defaultTagline")
@@ -25,12 +20,10 @@ export default async function TenantHeroBanner() {
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight tracking-tight text-[var(--text-base)] inline-flex items-center justify-center w-full gap-2">
             {headline}
-            <InfoTooltip tooltip={tt("hero.headline")} />
           </h1>
           {tagline && (
             <p className="mx-auto max-w-2xl text-base sm:text-lg md:text-xl text-[var(--text-muted)] leading-relaxed inline-flex items-center justify-center gap-2">
               {tagline}
-              <InfoTooltip tooltip={tt("hero.tagline")} />
             </p>
           )}
         </div>

@@ -14,9 +14,12 @@ import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
+import {
+  useCartStore,
+  getAvailableInventory,
+} from "@lib/context/cart-store-context"
 import { useTranslations } from "next-intl"
-import { usePathname } from "next/navigation"
-import { Fragment, useEffect, useRef, useState } from "react"
+import { Fragment, useCallback, useState } from "react"
 
 const CartDropdown = ({
   cart: cartState,
@@ -24,72 +27,61 @@ const CartDropdown = ({
   cart?: HttpTypes.StoreCart | null
 }) => {
   const t = useTranslations("cart")
-  const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
-    undefined
-  )
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false)
 
-  const open = () => setCartDropdownOpen(true)
+  const toggle = () => setCartDropdownOpen((prev) => !prev)
   const close = () => setCartDropdownOpen(false)
 
+  const { state, dispatch } = useCartStore()
+
+  // Use the context cart for live quantities; fall back to server prop for
+  // items that haven't been initialised in the store yet.
+  const displayCart = state.cart ?? cartState
+
+  // Derive live quantities from the store for each item
+  const items = displayCart?.items?.map((item) => {
+    const variantId = item.variant_id
+    if (variantId && state.items[variantId]) {
+      return {
+        ...item,
+        quantity: state.items[variantId].quantity,
+      }
+    }
+    return item
+  })
+
   const totalItems =
-    cartState?.items?.reduce((acc, item) => {
+    items?.reduce((acc, item) => {
       return acc + item.quantity
     }, 0) || 0
 
-  const subtotal = cartState?.subtotal ?? 0
-  const itemRef = useRef<number>(totalItems || 0)
+  const subtotal = displayCart?.subtotal ?? 0
 
-  const timedOpen = () => {
-    open()
-
-    const timer = setTimeout(close, 5000)
-
-    setActiveTimer(timer)
-  }
-
-  const openAndCancel = () => {
-    if (activeTimer) {
-      clearTimeout(activeTimer)
-    }
-
-    open()
-  }
-
-  // Clean up the timer when the component unmounts
-  useEffect(() => {
-    return () => {
-      if (activeTimer) {
-        clearTimeout(activeTimer)
-      }
-    }
-  }, [activeTimer])
-
-  const pathname = usePathname()
-
-  // open cart dropdown when modifying the cart items, but only if we're not on the cart page
-  useEffect(() => {
-    if (itemRef.current !== totalItems && !pathname.includes("/cart")) {
-      timedOpen()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalItems, itemRef.current])
+  const handleQuantityChange = useCallback(
+    (variantId: string, newQuantity: number) => {
+      if (!variantId) return
+      // Find the variant to compute max inventory
+      const cartItem = displayCart?.items?.find(
+        (item) => item.variant_id === variantId
+      )
+      const max = getAvailableInventory(cartItem?.variant ?? null)
+      dispatch({
+        type: "SET_QUANTITY",
+        variantId,
+        quantity: newQuantity,
+        max,
+      })
+    },
+    [displayCart?.items, dispatch]
+  )
 
   return (
-    <div
-      className="h-full z-50"
-      onMouseEnter={openAndCancel}
-      onMouseLeave={close}
-    >
+    <div className="h-full z-50">
       <Popover className="relative h-full">
-        <PopoverButton className="h-full">
-          <LocalizedClientLink
-            className="hover:text-ui-fg-base"
-            href="/cart"
-            data-testid="nav-cart-link"
-          >
+        <PopoverButton className="h-full" onClick={toggle}>
+          <span className="hover:text-ui-fg-base cursor-pointer">
             {t("title")} ({totalItems})
-          </LocalizedClientLink>
+          </span>
         </PopoverButton>
         <Transition
           show={cartDropdownOpen}
@@ -109,10 +101,10 @@ const CartDropdown = ({
             <div className="p-4 flex items-center justify-center">
               <h3 className="text-large-semi">{t("title")}</h3>
             </div>
-            {cartState && cartState.items?.length ? (
+            {displayCart && items && items.length ? (
               <>
                 <div className="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
-                  {cartState.items
+                  {items
                     .sort((a, b) => {
                       return (a.created_at ?? "") > (b.created_at ?? "")
                         ? -1
@@ -127,6 +119,7 @@ const CartDropdown = ({
                         <LocalizedClientLink
                           href={`/products/${item.product_handle}`}
                           className="w-24"
+                          onClick={close}
                         >
                           <Thumbnail
                             thumbnail={item.thumbnail}
@@ -142,6 +135,7 @@ const CartDropdown = ({
                                   <LocalizedClientLink
                                     href={`/products/${item.product_handle}`}
                                     data-testid="product-link"
+                                    onClick={close}
                                   >
                                     {item.title}
                                   </LocalizedClientLink>
@@ -151,29 +145,65 @@ const CartDropdown = ({
                                   data-testid="cart-item-variant"
                                   data-value={item.variant}
                                 />
-                                <span
-                                  data-testid="cart-item-quantity"
-                                  data-value={item.quantity}
-                                >
-                                  {t("quantity", { count: item.quantity })}
-                                </span>
                               </div>
                               <div className="flex justify-end">
                                 <LineItemPrice
                                   item={item}
                                   style="tight"
-                                  currencyCode={cartState.currency_code}
+                                  currencyCode={displayCart.currency_code}
                                 />
                               </div>
                             </div>
                           </div>
-                          <DeleteButton
-                            id={item.id}
-                            className="mt-1"
-                            data-testid="cart-item-remove-button"
-                          >
-                            {t("remove")}
-                          </DeleteButton>
+                          <div className="flex items-center justify-between mt-1">
+                            <div className="flex items-center gap-x-2">
+                              {/* Plus button */}
+                              <button
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    item.variant_id!,
+                                    item.quantity + 1
+                                  )
+                                }
+                                aria-label="Increase quantity"
+                                className={[
+                                  "w-7 h-7 rounded-full border border-grey-20 cursor-pointer relative flex items-center justify-center",
+                                  "transition-all duration-200",
+                                  "hover:bg-grey-10 hover:border-grey-40",
+                                ].join(" ")}
+                              >
+                                <span className="absolute block w-2.5 h-[2px] bg-grey-60 rounded-full" />
+                                <span className="absolute block w-[2px] h-2.5 bg-grey-60 rounded-full" />
+                              </button>
+
+                              {/* Quantity */}
+                              <span className="text-sm font-medium min-w-[1.5ch] text-center tabular-nums">
+                                {item.quantity}
+                              </span>
+
+                              {/* Minus button */}
+                              <button
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    item.variant_id!,
+                                    item.quantity - 1
+                                  )
+                                }
+                                aria-label="Decrease quantity"
+                                className={[
+                                  "w-7 h-7 rounded-full border border-grey-20 cursor-pointer flex items-center justify-center",
+                                  "transition-all duration-200",
+                                  "hover:bg-grey-10 hover:border-grey-40",
+                                ].join(" ")}
+                              >
+                                <span className="block w-2.5 h-[2px] bg-grey-60 rounded-full" />
+                              </button>
+                            </div>
+                            <DeleteButton
+                              id={item.id}
+                              data-testid="cart-item-remove-button"
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -191,14 +221,14 @@ const CartDropdown = ({
                     >
                       {convertToLocale({
                         amount: subtotal,
-                        currency_code: cartState.currency_code,
+                        currency_code: displayCart.currency_code,
                       })}
                     </span>
                   </div>
-                  <LocalizedClientLink href="/cart" passHref>
+                  <LocalizedClientLink href="/cart" passHref onClick={close}>
                     <Button
                       className="w-full"
-                      size="large"
+                      size={"large" as any}
                       data-testid="go-to-cart-button"
                     >
                       {t("goToCart")}

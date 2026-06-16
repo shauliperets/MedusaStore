@@ -5,7 +5,7 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import SortDropdown from "@modules/store/components/sort-dropdown"
 import PaginatedProducts from "./paginated-products"
-import { Card, Heading, InfoTooltip, Text } from "@modules/common/components/ui"
+import { Card, Heading, Text } from "@modules/common/components/ui"
 import MobileFiltersDrawer from "./mobile-filters-drawer"
 
 const StoreTemplate = async ({
@@ -18,7 +18,6 @@ const StoreTemplate = async ({
   countryCode: string
 }) => {
   const t = await getTranslations("store")
-  const tt = await getTranslations("tooltips")
   const parsedPageNumber = page ? parseInt(page, 10) : 1
   const pageNumber = Number.isNaN(parsedPageNumber) ? 1 : parsedPageNumber
   const sort = sortBy || "created_at"
@@ -32,7 +31,6 @@ const StoreTemplate = async ({
           className="mb-2 inline-flex items-center"
         >
           {t("allProducts")}
-          <InfoTooltip tooltip={tt("store.allProducts")} />
         </Heading>
       </section>
 
@@ -51,7 +49,6 @@ const StoreTemplate = async ({
                     className="text-xl inline-flex items-center"
                   >
                     {t("allProducts")}
-                    <InfoTooltip tooltip={tt("store.allProducts")} />
                   </Heading>
                 </div>
 
