@@ -1,0 +1,14 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN npm install -g turbo
+
+COPY . .
+
+RUN npm install
+RUN turbo build --filter=@dtc/backend
+
+EXPOSE 9000
+
+CMD ["turbo", "start", "--filter=@dtc/backend"]
