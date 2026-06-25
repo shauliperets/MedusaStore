@@ -12,6 +12,7 @@ type Tenant = {
   tagline: string | null;
   logo_text: string | null;
   publishable_api_key: string;
+  sales_channel_id: string | null;
   region_id: string | null;
   default_locale: string;
 };
@@ -104,12 +105,6 @@ const TenantForm = ({
       labelKey: "tenants.form.fields.logoText",
       placeholderKey: "tenants.form.fields.logoTextPlaceholder",
       tooltipKey: "tenants.form.fields.logoTextTooltip",
-    },
-    {
-      field: "publishable_api_key",
-      labelKey: "tenants.form.fields.publishableApiKey",
-      placeholderKey: "tenants.form.fields.publishableApiKeyPlaceholder",
-      tooltipKey: "tenants.form.fields.publishableApiKeyTooltip",
     },
     {
       field: "region_id",
@@ -282,6 +277,16 @@ const TenantsWidget = () => {
                   <p className="text-xs text-ui-fg-muted mt-1">
                     {t("tenants.locale")}: {tenant.default_locale}
                   </p>
+                  {tenant.publishable_api_key && (
+                    <p className="text-xs text-ui-fg-muted font-mono mt-0.5 truncate max-w-xs" title={tenant.publishable_api_key}>
+                      Key: {tenant.publishable_api_key.slice(0, 24)}…
+                    </p>
+                  )}
+                  {tenant.sales_channel_id && (
+                    <p className="text-xs text-ui-fg-muted font-mono mt-0.5 truncate max-w-xs" title={tenant.sales_channel_id}>
+                      Channel: {tenant.sales_channel_id}
+                    </p>
+                  )}
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <button

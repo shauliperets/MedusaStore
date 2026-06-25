@@ -7,6 +7,7 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { signup } from "@lib/data/customer"
+import { useTranslations } from "next-intl"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -20,6 +21,8 @@ const Register = ({ setCurrentView }: Props) => {
     ) => Promise<string | null>,
     null as string | null
   )
+  const t = useTranslations("account")
+  const tCheckout = useTranslations("checkout")
 
   return (
     <div
@@ -27,30 +30,29 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="mb-3 text-center text-2xl font-semibold tracking-tight">
-        Become a Medusa Store Member
+        {t("becomeMember")}
       </h1>
       <p className="mb-5 text-center text-base-regular text-ui-fg-subtle">
-        Create your Medusa Store Member profile, and get access to an enhanced
-        shopping experience.
+        {t("registerSubtext")}
       </p>
       <form className="w-full flex flex-col" action={formAction}>
         <div className="flex flex-col w-full gap-y-2">
           <Input
-            label="First name"
+            label={tCheckout("firstName")}
             name="first_name"
             required
             autoComplete="given-name"
             data-testid="first-name-input"
           />
           <Input
-            label="Last name"
+            label={tCheckout("lastName")}
             name="last_name"
             required
             autoComplete="family-name"
             data-testid="last-name-input"
           />
           <Input
-            label="Email"
+            label={tCheckout("email")}
             name="email"
             required
             type="email"
@@ -58,14 +60,14 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="email-input"
           />
           <Input
-            label="Phone"
+            label={tCheckout("phone")}
             name="phone"
             type="tel"
             autoComplete="tel"
             data-testid="phone-input"
           />
           <Input
-            label="Password"
+            label={tCheckout("password")}
             name="password"
             required
             type="password"
@@ -75,33 +77,33 @@ const Register = ({ setCurrentView }: Props) => {
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
         <span className="mt-6 text-center text-small-regular text-ui-fg-subtle">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
+          {t("byCreatingAccount")}{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
             className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
           >
-            Privacy Policy
+            {t("privacyPolicy")}
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
             className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
           >
-            Terms of Use
+            {t("termsOfUse")}
           </LocalizedClientLink>
           .
         </span>
         <SubmitButton className="w-full mt-6" data-testid="register-button">
-          Join
+          {t("join")}
         </SubmitButton>
       </form>
       <span className="mt-6 text-center text-small-regular text-ui-fg-subtle">
-        Already a member?{" "}
+        {t("alreadyMember")}{" "}
         <button
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
           className="font-medium text-ui-fg-base underline-offset-2 hover:underline"
         >
-          Sign in
+          {t("login")}
         </button>
         .
       </span>

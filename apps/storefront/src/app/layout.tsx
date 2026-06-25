@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale, getMessages } from "next-intl/server"
+import SubdomainBanner from "@modules/layout/components/subdomain-banner"
 import "../styles/globals.css"
 
 const inter = Inter({
@@ -32,6 +33,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages}>
+          <SubdomainBanner />
           <main className="relative min-h-screen">{props.children}</main>
         </NextIntlClientProvider>
       </body>

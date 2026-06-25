@@ -3,6 +3,7 @@
 import { ArrowRightOnRectangle } from "@medusajs/icons"
 import { clx } from "@modules/common/components/ui"
 import { useParams, usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 import { signout } from "@lib/data/customer"
 import { HttpTypes } from "@medusajs/types"
@@ -19,6 +20,7 @@ const AccountNav = ({
 }) => {
   const route = usePathname()
   const { countryCode } = useParams() as { countryCode: string }
+  const t = useTranslations("account")
 
   const handleLogout = async () => {
     await signout(countryCode)
@@ -35,13 +37,13 @@ const AccountNav = ({
           >
             <>
               <ChevronDown className="transform rotate-90" />
-              <span>Account</span>
+              <span>{t("title")}</span>
             </>
           </LocalizedClientLink>
         ) : (
           <>
             <div className="mb-4 text-xl-semi">
-              Hello {customer?.first_name}
+              {t("welcome", { name: customer?.first_name || "" })}
             </div>
             <div className="text-base-regular">
               <ul className="surface-card divide-y divide-ui-border-base border border-white/40">
@@ -54,7 +56,7 @@ const AccountNav = ({
                     <>
                       <div className="flex items-center gap-x-2">
                         <User size={20} />
-                        <span>Profile</span>
+                        <span>{t("profile")}</span>
                       </div>
                       <ChevronDown className="transform -rotate-90" />
                     </>
@@ -69,7 +71,7 @@ const AccountNav = ({
                     <>
                       <div className="flex items-center gap-x-2">
                         <MapPin size={20} />
-                        <span>Addresses</span>
+                        <span>{t("addresses")}</span>
                       </div>
                       <ChevronDown className="transform -rotate-90" />
                     </>
@@ -83,7 +85,7 @@ const AccountNav = ({
                   >
                     <div className="flex items-center gap-x-2">
                       <Package size={20} />
-                      <span>Orders</span>
+                      <span>{t("orders")}</span>
                     </div>
                     <ChevronDown className="transform -rotate-90" />
                   </LocalizedClientLink>
@@ -97,7 +99,7 @@ const AccountNav = ({
                   >
                     <div className="flex items-center gap-x-2">
                       <ArrowRightOnRectangle />
-                      <span>Log out</span>
+                      <span>{t("logout")}</span>
                     </div>
                     <ChevronDown className="transform -rotate-90" />
                   </button>
@@ -110,7 +112,7 @@ const AccountNav = ({
       <div className="hidden small:block" data-testid="account-nav">
         <div className="surface-card border border-white/40 p-4">
           <div className="pb-3">
-            <h3 className="text-base-semi">Account</h3>
+            <h3 className="text-base-semi">{t("title")}</h3>
           </div>
           <div className="text-base-regular">
             <ul className="mb-0 flex w-full flex-col items-start justify-start gap-y-2">
@@ -120,7 +122,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="overview-link"
                 >
-                  Overview
+                  {t("overview")}
                 </AccountNavLink>
               </li>
               <li className="w-full">
@@ -129,7 +131,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="profile-link"
                 >
-                  Profile
+                  {t("profile")}
                 </AccountNavLink>
               </li>
               <li className="w-full">
@@ -138,7 +140,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="addresses-link"
                 >
-                  Addresses
+                  {t("addresses")}
                 </AccountNavLink>
               </li>
               <li className="w-full">
@@ -147,7 +149,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="orders-link"
                 >
-                  Orders
+                  {t("orders")}
                 </AccountNavLink>
               </li>
               <li className="w-full text-grey-700">
@@ -157,7 +159,7 @@ const AccountNav = ({
                   className="w-full rounded-lg px-3 py-2 text-left text-ui-fg-subtle transition-colors hover:bg-ui-bg-subtle hover:text-ui-fg-base"
                   data-testid="logout-button"
                 >
-                  Log out
+                  {t("logout")}
                 </button>
               </li>
             </ul>

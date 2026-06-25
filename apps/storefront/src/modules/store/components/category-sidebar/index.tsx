@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { listCategories } from "@lib/data/categories"
 import { Card } from "@modules/common/components/ui"
+import CategoryNavItem from "./category-nav-item"
 
 const CategorySidebar = async () => {
   const [categories, t] = await Promise.all([
@@ -13,27 +13,26 @@ const CategorySidebar = async () => {
 
   return (
     <Card>
-      <Card.Header>
-        <Card.Title>{t("categories")}</Card.Title>
+      <Card.Header className="border-b border-[var(--surface-border)]/70 bg-gradient-to-r from-white via-slate-50 to-indigo-50/30 dark:from-slate-950 dark:via-slate-950 dark:to-indigo-950/40">
+        <Card.Title className="flex items-center gap-2">
+          <span
+            className="inline-block h-2 w-2 rounded-full bg-[var(--brand-primary)] opacity-80"
+            aria-hidden="true"
+          />
+          {t("categories")}
+        </Card.Title>
       </Card.Header>
       <Card.Content>
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-1">
           <li>
-            <LocalizedClientLink
-              href="/store"
-              className="w-full px-3 py-2 rounded-md text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[var(--text-base)]"
-            >
-              {t("allProducts")}
-            </LocalizedClientLink>
+            <CategoryNavItem href="/store" label={t("allProducts")} exact />
           </li>
           {rootCategories.map((cat) => (
             <li key={cat.id}>
-              <LocalizedClientLink
+              <CategoryNavItem
                 href={`/categories/${cat.handle}`}
-                className="w-full px-3 py-2 rounded-md text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[var(--text-base)]"
-              >
-                {cat.name}
-              </LocalizedClientLink>
+                label={cat.name}
+              />
             </li>
           ))}
         </ul>

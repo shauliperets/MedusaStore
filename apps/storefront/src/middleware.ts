@@ -17,6 +17,7 @@ type TenantConfig = {
   tagline: string | null
   logo_text: string | null
   publishable_api_key: string
+  sales_channel_id: string | null
   region_id: string | null
   default_locale: string
 }

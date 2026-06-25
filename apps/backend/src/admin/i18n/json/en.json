@@ -61,5 +61,9 @@
     "title": "Payment providers are not selected",
     "description": "This region cannot accept payments until at least one provider is configured (for example, System).",
     "tooltip": "Each region requires at least one payment provider to process customer payments"
+  },
+  "subdomainBanner": {
+    "title": "Subdomain \"{{subdomain}}\" is not configured.",
+    "description": "Go to Settings → Tenants to create a tenant for this subdomain."
   }
 }

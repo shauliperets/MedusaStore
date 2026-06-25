@@ -7,6 +7,7 @@ import {
   Label,
   Text,
 } from "@modules/common/components/ui"
+import { useTranslations } from "next-intl"
 import React from "react"
 
 import { applyPromotions } from "@lib/data/cart"
@@ -21,6 +22,7 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
+  const t = useTranslations("checkout")
   const [isOpen, setIsOpen] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState("")
 
@@ -70,7 +72,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               className="text-sm font-medium text-ui-fg-interactive transition-colors hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              {t("addPromotionCode")}
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -93,7 +95,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   variant="secondary"
                   data-testid="discount-apply-button"
                 >
-                  Apply
+                  {t("apply")}
                 </SubmitButton>
               </div>
 
@@ -109,7 +111,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <div className="flex w-full items-center rounded-xl border border-ui-border-base bg-ui-bg-subtle/60 p-3">
             <div className="flex flex-col w-full">
               <Heading className="mb-2 txt-medium">
-                Promotion(s) applied:
+                {t("promotionsApplied")}
               </Heading>
 
               {promotions.map((promotion) => {
@@ -164,7 +166,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                       >
                         <Trash size={14} />
                         <span className="sr-only">
-                          Remove discount code from order
+                          {t("removeDiscount")}
                         </span>
                       </button>
                     )}

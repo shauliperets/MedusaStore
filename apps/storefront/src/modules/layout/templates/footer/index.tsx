@@ -7,9 +7,11 @@ import { getTranslations } from "next-intl/server"
 import { HttpTypes } from "@medusajs/types"
 
 export default async function Footer() {
-  const { collections } = await listCollections()
-  const product_categories = await listCategories()
-  const t = await getTranslations("footer")
+  const [{ collections }, product_categories, t] = await Promise.all([
+    listCollections(),
+    listCategories(),
+    getTranslations("footer"),
+  ])
 
   return (
     <footer className="border-t border-[var(--surface-border)] w-full">

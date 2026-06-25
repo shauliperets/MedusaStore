@@ -6,6 +6,7 @@ import Divider from "@modules/common/components/divider"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
+import { useTranslations } from "next-intl"
 
 type SummaryProps = {
   cart: HttpTypes.StoreCart
@@ -22,12 +23,13 @@ function getCheckoutStep(cart: HttpTypes.StoreCart) {
 }
 
 const Summary = ({ cart }: SummaryProps) => {
+  const t = useTranslations("cart")
   const step = getCheckoutStep(cart)
 
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Order Summary</Card.Title>
+        <Card.Title>{t("orderSummary")}</Card.Title>
       </Card.Header>
       <Card.Content className="space-y-4">
         <DiscountCode cart={cart} />
@@ -38,7 +40,7 @@ const Summary = ({ cart }: SummaryProps) => {
           data-testid="checkout-button"
         >
           <Button className="w-full" size="lg">
-            Go to checkout
+            {t("goToCheckout")}
           </Button>
         </LocalizedClientLink>
       </Card.Content>

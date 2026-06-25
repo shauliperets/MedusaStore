@@ -10,7 +10,6 @@ import SortDropdown from "@modules/store/components/sort-dropdown"
 import MobileFiltersDrawer from "@modules/store/templates/mobile-filters-drawer"
 import { Card, Heading, Text } from "@modules/common/components/ui"
 import { HttpTypes } from "@medusajs/types"
-import { getTranslations } from "next-intl/server"
 
 export default async function CategoryTemplate({
   category,
@@ -42,22 +41,24 @@ export default async function CategoryTemplate({
 
   return (
     <div className="content-shell py-8" data-testid="category-container">
-      <section className="mb-6 overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-gradient-to-r from-white via-slate-50 to-sky-50/60 px-5 py-6 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900/70 small:px-7">
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
-          {parents
-            .slice()
-            .reverse()
-            .map((parent) => (
-              <LocalizedClientLink
-                key={parent.id}
-                className="transition-colors hover:text-[var(--text-base)]"
-                href={`/categories/${parent.handle}`}
-              >
-                {parent.name}
-              </LocalizedClientLink>
-            ))}
-          {!!parents.length && <span>/</span>}
-        </div>
+      <section className="mb-6 overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-gradient-to-r from-white via-slate-50 to-sky-50/70 px-5 py-6 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900/70 small:px-7">
+        {!!parents.length && (
+          <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
+            {parents
+              .slice()
+              .reverse()
+              .map((parent) => (
+                <LocalizedClientLink
+                  key={parent.id}
+                  className="transition-colors hover:text-[var(--text-base)]"
+                  href={`/categories/${parent.handle}`}
+                >
+                  {parent.name}
+                </LocalizedClientLink>
+              ))}
+            <span>/</span>
+          </div>
+        )}
         <Heading
           level="h1"
           data-testid="category-page-title"
@@ -82,12 +83,9 @@ export default async function CategoryTemplate({
             <Card.Header className="gap-4 border-b border-[var(--surface-border)]/70 bg-gradient-to-r from-white to-slate-50/50 dark:from-slate-950 dark:to-slate-900/40">
               <div className="flex flex-col gap-3 small:flex-row small:items-center small:justify-between">
                 <div>
-                  <Heading level="h2" className="text-xl">
+                  <Heading level="h2" className="text-xl inline-flex items-center">
                     {category.name}
                   </Heading>
-                  <Text className="text-sm text-[var(--text-muted)]">
-                    Browse this category and refine results with sorting.
-                  </Text>
                 </div>
 
                 <div className="flex items-center gap-3">

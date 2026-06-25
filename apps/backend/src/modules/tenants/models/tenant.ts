@@ -10,6 +10,7 @@ const Tenant = model.define("tenant", {
   tagline: model.text().nullable(),
   logo_text: model.text().nullable(),
   publishable_api_key: model.text(),
+  sales_channel_id: model.text().nullable(),
   region_id: model.text().nullable(),
   default_locale: model.text().default("en"),
 });

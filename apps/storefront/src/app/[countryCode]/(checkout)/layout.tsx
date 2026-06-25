@@ -1,13 +1,23 @@
+import { retrieveCart } from "@lib/data/cart"
+import { CartStoreProvider } from "@lib/context/cart-store-context"
+import { getTranslations } from "next-intl/server"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 
-export default function CheckoutLayout({
+export default async function CheckoutLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [cart, t, tNav] = await Promise.all([
+    retrieveCart(),
+    getTranslations("checkout"),
+    getTranslations("nav"),
+  ])
+
   return (
+    <CartStoreProvider initialCart={cart}>
     <div className="w-full bg-white relative small:min-h-screen">
       <div className="h-16 bg-white border-b ">
         <nav className="flex h-full items-center content-container justify-between">
@@ -18,10 +28,10 @@ export default function CheckoutLayout({
           >
             <ChevronDown className="rotate-90" size={16} />
             <span className="mt-px hidden small:block txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base ">
-              Back to shopping cart
+              {t("backToShoppingCart")}
             </span>
             <span className="mt-px block small:hidden txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base">
-              Back
+              {t("back")}
             </span>
           </LocalizedClientLink>
           <LocalizedClientLink
@@ -29,7 +39,7 @@ export default function CheckoutLayout({
             className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             data-testid="store-link"
           >
-            Medusa Store
+            {tNav("store")}
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>
@@ -39,5 +49,6 @@ export default function CheckoutLayout({
         <MedusaCTA />
       </div>
     </div>
+    </CartStoreProvider>
   )
 }

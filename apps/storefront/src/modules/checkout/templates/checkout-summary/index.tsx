@@ -5,8 +5,11 @@ import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 import { HttpTypes } from "@medusajs/types"
+import { getTranslations } from "next-intl/server"
 
-const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
+const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
+  const t = await getTranslations("checkout")
+
   return (
     <aside className="sticky top-20 flex flex-col-reverse gap-5 small:flex-col">
       <div className="surface-card glass-panel border-white/40 p-5 small:p-6">
@@ -15,7 +18,7 @@ const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           level="h2"
           className="flex flex-row items-baseline text-xl-semi"
         >
-          In your Cart
+          {t("inYourCart")}
         </Heading>
         <Divider className="my-4" />
         <CartTotals totals={cart} />
