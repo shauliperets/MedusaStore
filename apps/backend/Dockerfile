@@ -1,57 +1,33 @@
 # syntax=docker/dockerfile:1.6
 
 # =========================
-# 1. BASE (shared cache)
+# 1. BUILDER
 # =========================
-FROM node:20 AS base
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# enable corepack (faster package handling)
-RUN corepack enable
+# Cap Node heap to 1.5 GB — leaves headroom for OS + npm on a 4 GB server.
+# Medusa admin build (Vite/esbuild) can spike past 2 GB without this.
+ENV NODE_OPTIONS=--max-old-space-size=1536
 
-# =========================
-# 2. BUILDER
-# =========================
-FROM base AS builder
+COPY . .
 
-# Turbo cache env (local + optional remote)
-ENV TURBO_TELEMETRY_DISABLED=1
-ENV TURBO_CACHE_DIR=.turbo
-
-# install turbo once
-RUN npm install -g turbo
-
-# copy only manifests first (max cache efficiency)
-COPY package*.json ./
-COPY turbo.json ./
-COPY apps ./apps
-
-# ⚡ BuildKit cache for npm (CRITICAL)
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+    npm install --no-audit --no-fund --prefer-offline
 
-# ⚡ Turbo remote cache support (optional but powerful)
-# אם אין לך Vercel remote cache – זה עדיין עובד local cache
-RUN --mount=type=cache,target=/app/.turbo \
-    npx turbo run build --filter=@dtc/backend
-
+RUN npm run build
 
 # =========================
-# 3. RUNTIME (LEAN)
+# 2. RUNNER (LEAN)
 # =========================
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
-# copy ONLY compiled output
-COPY --from=builder /app/apps/backend/dist ./dist
-COPY --from=builder /app/apps/backend/package.json ./package.json
+COPY --from=builder /app/.medusa/server/ .
 
-# install ONLY production deps (no dev, no build tools)
-RUN npm ci --omit=dev --ignore-scripts
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --omit=dev --ignore-scripts --no-audit --no-fund --prefer-offline
 
 ENV NODE_ENV=production
-
 EXPOSE 9000
-
-CMD ["node", "dist/main.js"]
+CMD ["node_modules/.bin/medusa", "start"]
