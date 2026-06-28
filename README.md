@@ -134,11 +134,15 @@ npm run dev
 
 The storefront runs on `http://localhost:8000`.
 
-You can slo run the following command from the root to start both backend and storefront:
+You can also run the following command from the root to start both backend and storefront:
 
 ```bash
-pnpm dev
+npm dev
 ```
+
+## Contect to server as root
+ssh -v -i ~/.ssh/id_rsa root@62.238.34.10
+
 
 ## Configuration
 
