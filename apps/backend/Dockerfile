@@ -30,4 +30,4 @@ RUN --mount=type=cache,target=/root/.npm \
 
 ENV NODE_ENV=production
 EXPOSE 9000
-CMD ["node_modules/.bin/medusa", "start"]
+CMD ["sh", "-c", "node_modules/.bin/medusa db:migrate && node_modules/.bin/medusa start"]
