@@ -4,6 +4,9 @@ import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { TENANT_MODULE } from "../../../modules/tenants";
 import TenantModuleService from "../../../modules/tenants/service";
 
+// Public endpoint — no publishable API key required (this is how clients obtain the key)
+export const AUTHENTICATE = false
+
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const tenantService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
 
