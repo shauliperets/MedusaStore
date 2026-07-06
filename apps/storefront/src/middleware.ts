@@ -45,7 +45,7 @@ async function getTenantForRequest(host: string): Promise<TenantConfig | null> {
 
   try {
     const res = await fetch(
-      `${BACKEND_URL}/store/tenants?subdomain=${encodeURIComponent(subdomain)}`,
+      `${BACKEND_URL}/tenants?subdomain=${encodeURIComponent(subdomain)}`,
       { next: { revalidate: 3600 } }
     )
     if (!res.ok) {
