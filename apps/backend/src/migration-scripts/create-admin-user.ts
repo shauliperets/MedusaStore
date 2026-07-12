@@ -8,7 +8,7 @@ const scryptAsync = promisify(scrypt)
 async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(16)
   const hash = (await scryptAsync(password, salt, 64)) as Buffer
-  return `${salt.toString("hex")}:${hash.toString("hex")}`
+  return `${hash.toString("hex")}.${salt.toString("hex")}`
 }
 
 export default async function createAdminUser({
@@ -29,8 +29,29 @@ export default async function createAdminUser({
   const authModule = container.resolve(Modules.AUTH)
 
   const existing = await userModule.listUsers({ email })
+  const hashedPassword = await hashPassword(password)
+
   if (existing.length > 0) {
-    logger.info(`Admin user ${email} already exists, skipping.`)
+    logger.info(`Admin user ${email} already exists — resetting password.`)
+    const [identity] = await authModule.listAuthIdentities({
+      provider_identities: { provider: "emailpass", entity_id: email },
+    })
+    if (identity) {
+      await authModule.deleteAuthIdentities([identity.id])
+    }
+    await authModule.createAuthIdentities([
+      {
+        provider_identities: [
+          {
+            provider: "emailpass",
+            entity_id: email,
+            provider_metadata: { password: hashedPassword },
+          },
+        ],
+        app_metadata: { user_id: existing[0].id },
+      },
+    ])
+    logger.info(`Password reset for ${email}.`)
     return
   }
 
@@ -44,7 +65,7 @@ export default async function createAdminUser({
         {
           provider: "emailpass",
           entity_id: email,
-          provider_metadata: { password: await hashPassword(password) },
+          provider_metadata: { password: hashedPassword },
         },
       ],
       app_metadata: { user_id: user.id },

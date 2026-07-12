@@ -160,3 +160,10 @@ The storefront is configured via environment variables in `apps/storefront/.env.
 
 - [Medusa Documentation](https://docs.medusajs.com)
 - [Medusa Cloud](https://cloud.medusajs.com)
+
+
+## Commands 
+- docker ps
+- docker exec -it jfehv6xfg4rgelane2qqfx9o-090856692183 sh
+- ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=mypassword \
+  medusa exec src/migration-scripts/create-admin-user.ts
