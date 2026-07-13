@@ -1,14 +1,12 @@
 import { MedusaContainer } from "@medusajs/framework"
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
-import { randomBytes, scrypt } from "crypto"
-import { promisify } from "util"
-
-const scryptAsync = promisify(scrypt)
+// scrypt-kdf is a runtime dep of @medusajs/auth-emailpass — available in container
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const scryptKdf = require("scrypt-kdf")
 
 async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16)
-  const hash = (await scryptAsync(password, salt, 64)) as Buffer
-  return `${hash.toString("hex")}.${salt.toString("hex")}`
+  const hash = await scryptKdf.kdf(password, { logN: 15, r: 8, p: 1 })
+  return hash.toString("base64")
 }
 
 export default async function createAdminUser({
