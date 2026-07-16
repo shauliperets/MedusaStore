@@ -24,6 +24,11 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
+    // Allow session cookies over HTTP (no HTTPS on this deployment)
+    cookieOptions: {
+      sameSite: "lax" as const,
+      secure: false,
+    },
   },
   modules: [
     {
